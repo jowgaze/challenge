@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 @Service
@@ -19,17 +20,32 @@ public class ChallengeService {
 
     @Transactional(readOnly = true)
     public List<BalanceResponseDto> getBalance(BalanceRequestDto request) {
+        BalanceResponseDto presencial = getBalanceByType(request, "P");
+        BalanceResponseDto delivery = getBalanceByType(request, "D");
+        BalanceResponseDto total = getTotalBalance(presencial.amount(), delivery.amount());
+
+        return Stream.of(presencial, delivery, total).toList();
+    }
+
+    private BalanceResponseDto getBalanceByType(BalanceRequestDto request, String type) {
         LocalDateTime start = request.start();
         LocalDateTime end = request.end();
+        String typeName = getTypeName(type);
+        BigDecimal amount = repository.findTotalSales(type, start, end);
 
-        BigDecimal presencialAmount = repository.findTotalSales("P", start, end);
-        BigDecimal deliveryAmount = repository.findTotalSales("D", start, end);
-        BigDecimal totalAmount = deliveryAmount.add(presencialAmount);
+        return new BalanceResponseDto(
+                typeName,
+                Objects.requireNonNullElse(amount, BigDecimal.ZERO)
+        );
+    }
 
-        return Stream.of(
-          new BalanceResponseDto("PRESENCIAL", presencialAmount),
-          new BalanceResponseDto("DELIVERY", deliveryAmount),
-          new BalanceResponseDto("TOTAL", totalAmount)
-        ).toList();
+    private BalanceResponseDto getTotalBalance(BigDecimal presencialAmount, BigDecimal deliveryAmount) {
+        BigDecimal totalAmount = presencialAmount.add(deliveryAmount);
+        return new BalanceResponseDto("TOTAL", totalAmount);
+    }
+
+    private String getTypeName(String type) {
+        if (type.equals("D")) return "DELIVERY";
+        return "PRESENCIAL";
     }
 }
