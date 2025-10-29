@@ -1,0 +1,37 @@
+package com.challenge.domain.model;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
+import lombok.*;
+
+@Entity
+@Table(name = "item_item_product_sales")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class ItemItemProductSale {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "item_product_sale_id", nullable = false)
+    @JsonBackReference
+    private ItemProductSale itemProductSale;
+
+    @ManyToOne
+    @JoinColumn(name = "item_id", nullable = false)
+    @JsonBackReference
+    private Item item;
+
+    @ManyToOne
+    @JoinColumn(name = "option_group_id")
+    @JsonBackReference
+    private OptionGroup optionGroup;
+
+    private Double quantity;
+    private Double additionalPrice;
+    private Double price;
+    private Double amount = 1.0;
+}
