@@ -2,7 +2,9 @@ package com.challenge.services;
 
 import com.challenge.dto.IntervalDto;
 import com.challenge.dto.balance.BalanceResponseDto;
+import com.challenge.dto.customer.InactiveCustomerDto;
 import com.challenge.dto.product.TopProductResponseDto;
+import com.challenge.repositories.CustomerRepository;
 import com.challenge.repositories.ProductSaleRepository;
 import com.challenge.repositories.SaleRepository;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -20,6 +23,21 @@ import java.util.stream.Stream;
 public class ChallengeService {
     private final SaleRepository saleRepository;
     private final ProductSaleRepository productSaleRepository;
+    private final CustomerRepository customerRepository;
+
+    @Transactional(readOnly = true)
+    public List<InactiveCustomerDto> getInactiveCustomers(){
+        LocalDateTime thirtyDaysAgo = LocalDateTime.now().minusDays(30);
+        return customerRepository.findInactiveCustomers(thirtyDaysAgo)
+                .stream()
+                .map( obj -> new InactiveCustomerDto(
+                        ((Number) obj[0]).longValue(),
+                        obj[1].toString(),
+                        ((Number) obj[2]).longValue(),
+                        LocalDate.parse(obj[3].toString().substring(0, 10))
+                        )
+                ).toList();
+    }
 
     @Transactional(readOnly = true)
     public List<BalanceResponseDto> getBalance(IntervalDto request) {

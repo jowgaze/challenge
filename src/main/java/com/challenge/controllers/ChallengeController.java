@@ -2,6 +2,7 @@ package com.challenge.controllers;
 
 import com.challenge.dto.IntervalDto;
 import com.challenge.dto.balance.BalanceResponseDto;
+import com.challenge.dto.customer.InactiveCustomerDto;
 import com.challenge.dto.product.TopProductResponseDto;
 import com.challenge.services.ChallengeService;
 import lombok.RequiredArgsConstructor;
@@ -24,5 +25,10 @@ public class ChallengeController {
     @PostMapping("/top-products/{channelId}")
     public ResponseEntity<List<TopProductResponseDto>> getTopProducts(@PathVariable("channelId") Long channelId, @RequestBody IntervalDto interval){
         return ResponseEntity.ok(service.getTopProducts(channelId, interval));
+    }
+
+    @GetMapping("/inactive-customers")
+    public ResponseEntity<List<InactiveCustomerDto>> getInactiveCustomers(){
+        return ResponseEntity.ok(service.getInactiveCustomers());
     }
 }
