@@ -10,7 +10,7 @@ import { MatAnchor } from "@angular/material/button";
   styleUrl: './channel-filter.css',
 })
 export class ChannelFilter {
-  id: string = "1";
+  id: string = "0";
   channelId = output<string>();
 
   filter(){

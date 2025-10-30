@@ -1,1 +1,3 @@
-<app-home></app-home>
+<app-header (interval)="getInterval($event)"></app-header>
+<app-card-balance [interval]="interval"></app-card-balance>
+<app-nav [interval]="interval"></app-nav>

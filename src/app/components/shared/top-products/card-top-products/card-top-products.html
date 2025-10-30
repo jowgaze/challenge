@@ -1,7 +1,4 @@
-<div class="flex flex-col bg-white shadow-gray-500 shadow-md rounded-xl max-sm:w-full w-sm">
-    <div class="flex justify-center items-center bg-linear-to-r from-blue-400 to-blue-800 p-2 rounded-t-xl">
-        <p class="font-bold text-white">MAIS VENDIDOS</p>
-    </div>
+<div class="flex flex-col bg-white rounded-b-xl w-full">
     <app-channel-filter (channelId)="onFilerSelected($event)"></app-channel-filter>
     <div class="flex flex-col px-4 py-1">
         @for (p of topProducts | async; track p.name) {

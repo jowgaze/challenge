@@ -1,12 +1,5 @@
-<div class="mb-2 w-full">
-  <div
-    class="flex max-sm:flex-col justify-between items-center bg-linear-to-r from-blue-400 to-blue-800 shadow-gray-500 shadow-md p-3 rounded-xl w-full h-full">
-    <app-date-select (rangeChange)="onRangeSelected($event)"></app-date-select>
-
-    <div class="flex gap-2">
-      @for (b of balance | async; track b.type) {
+<section class="flex flex-wrap justify-center gap-2 mt-4 w-full">
+  @for (b of balance | async; track b.type) {
       <app-balance-item [balance]="b"></app-balance-item>
       }
-    </div>
-  </div>
-</div>
+</section>
