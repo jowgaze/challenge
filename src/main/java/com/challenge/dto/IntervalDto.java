@@ -1,8 +1,8 @@
-package com.challenge.dto.balance;
+package com.challenge.dto;
 
 import java.time.LocalDateTime;
 
-public record BalanceRequestDto(
+public record IntervalDto(
         LocalDateTime start,
         LocalDateTime end
 ) {

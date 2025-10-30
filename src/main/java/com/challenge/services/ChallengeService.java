@@ -1,6 +1,6 @@
 package com.challenge.services;
 
-import com.challenge.dto.balance.BalanceRequestDto;
+import com.challenge.dto.IntervalDto;
 import com.challenge.dto.balance.BalanceResponseDto;
 import com.challenge.dto.product.TopProductResponseDto;
 import com.challenge.repositories.ProductSaleRepository;
@@ -22,7 +22,7 @@ public class ChallengeService {
     private final ProductSaleRepository productSaleRepository;
 
     @Transactional(readOnly = true)
-    public List<BalanceResponseDto> getBalance(BalanceRequestDto request) {
+    public List<BalanceResponseDto> getBalance(IntervalDto request) {
         BalanceResponseDto presencial = getBalanceByType(request, "P");
         BalanceResponseDto delivery = getBalanceByType(request, "D");
         BalanceResponseDto total = getTotalBalance(presencial.amount(), delivery.amount());
@@ -31,8 +31,11 @@ public class ChallengeService {
     }
 
     @Transactional(readOnly = true)
-    public List<TopProductResponseDto> getTopProducts(Long channelId){
-        return productSaleRepository.findTopProduct(channelId)
+    public List<TopProductResponseDto> getTopProducts(Long channelId, IntervalDto interval){
+        if (channelId == 0)
+            channelId = null;
+
+        return productSaleRepository.findTopProduct(channelId, interval.start(), interval.end())
                 .stream()
                 .map(obj -> new TopProductResponseDto(
                         ((Number) obj[3]).longValue(),
@@ -43,7 +46,7 @@ public class ChallengeService {
                 .toList();
     }
 
-    private BalanceResponseDto getBalanceByType(BalanceRequestDto request, String type) {
+    private BalanceResponseDto getBalanceByType(IntervalDto request, String type) {
         LocalDateTime start = request.start();
         LocalDateTime end = request.end();
         String typeName = getTypeName(type);

@@ -1,6 +1,6 @@
 package com.challenge.controllers;
 
-import com.challenge.dto.balance.BalanceRequestDto;
+import com.challenge.dto.IntervalDto;
 import com.challenge.dto.balance.BalanceResponseDto;
 import com.challenge.dto.product.TopProductResponseDto;
 import com.challenge.services.ChallengeService;
@@ -17,12 +17,12 @@ public class ChallengeController {
     private final ChallengeService service;
 
     @PostMapping("/balance")
-    public ResponseEntity<List<BalanceResponseDto>> getBalance(@RequestBody BalanceRequestDto request) {
+    public ResponseEntity<List<BalanceResponseDto>> getBalance(@RequestBody IntervalDto request) {
         return ResponseEntity.ok(service.getBalance(request));
     }
 
-    @GetMapping("/top-products/{channelId}")
-    public ResponseEntity<List<TopProductResponseDto>> getTopProducts(@PathVariable("channelId") Long channelId){
-        return ResponseEntity.ok(service.getTopProducts(channelId));
+    @PostMapping("/top-products/{channelId}")
+    public ResponseEntity<List<TopProductResponseDto>> getTopProducts(@PathVariable("channelId") Long channelId, @RequestBody IntervalDto interval){
+        return ResponseEntity.ok(service.getTopProducts(channelId, interval));
     }
 }
