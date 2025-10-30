@@ -1,7 +1,9 @@
 package com.challenge.services;
 
-import com.challenge.dto.BalanceRequestDto;
-import com.challenge.dto.BalanceResponseDto;
+import com.challenge.dto.balance.BalanceRequestDto;
+import com.challenge.dto.balance.BalanceResponseDto;
+import com.challenge.dto.product.TopProductResponseDto;
+import com.challenge.repositories.ProductSaleRepository;
 import com.challenge.repositories.SaleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,7 +18,8 @@ import java.util.stream.Stream;
 @Service
 @RequiredArgsConstructor
 public class ChallengeService {
-    private final SaleRepository repository;
+    private final SaleRepository saleRepository;
+    private final ProductSaleRepository productSaleRepository;
 
     @Transactional(readOnly = true)
     public List<BalanceResponseDto> getBalance(BalanceRequestDto request) {
@@ -27,11 +30,24 @@ public class ChallengeService {
         return Stream.of(presencial, delivery, total).toList();
     }
 
+    @Transactional(readOnly = true)
+    public List<TopProductResponseDto> getTopProducts(Long channelId){
+        return productSaleRepository.findTopProduct(channelId)
+                .stream()
+                .map(obj -> new TopProductResponseDto(
+                        ((Number) obj[3]).longValue(),
+                        (String) obj[0],
+                        ((Number) obj[1]).longValue(),
+                        obj[2] != null ? ((Number) obj[2]).doubleValue() : 0.0
+                ))
+                .toList();
+    }
+
     private BalanceResponseDto getBalanceByType(BalanceRequestDto request, String type) {
         LocalDateTime start = request.start();
         LocalDateTime end = request.end();
         String typeName = getTypeName(type);
-        BigDecimal amount = repository.findTotalSales(type, start, end);
+        BigDecimal amount = saleRepository.findTotalSales(type, start, end);
 
         return new BalanceResponseDto(
                 typeName,

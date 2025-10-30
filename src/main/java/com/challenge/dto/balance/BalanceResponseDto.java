@@ -1,4 +1,4 @@
-package com.challenge.dto;
+package com.challenge.dto.balance;
 
 import java.math.BigDecimal;
 
