@@ -1,12 +1,17 @@
 package com.challenge.services;
 
+import com.challenge.domain.model.Store;
 import com.challenge.dto.IntervalDto;
+import com.challenge.dto.TicketDto;
 import com.challenge.dto.balance.BalanceResponseDto;
 import com.challenge.dto.customer.InactiveCustomerDto;
+import com.challenge.dto.store.StoreMapper;
 import com.challenge.dto.product.TopProductResponseDto;
+import com.challenge.dto.store.StoreResponseDto;
 import com.challenge.repositories.CustomerRepository;
 import com.challenge.repositories.ProductSaleRepository;
 import com.challenge.repositories.SaleRepository;
+import com.challenge.repositories.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +29,21 @@ public class ChallengeService {
     private final SaleRepository saleRepository;
     private final ProductSaleRepository productSaleRepository;
     private final CustomerRepository customerRepository;
+    private final StoreRepository storeRepository;
+
+    public List<TicketDto> getTicket(Long storeId, Long channelId, IntervalDto request) {
+        return saleRepository.findTicketByChannelAndStore(storeId, channelId, request.start(), request.end())
+                .stream()
+                .map(obj -> new TicketDto(
+                        ((Number) obj[0]).longValue(),
+                        obj[1].toString(),
+                        ((Number) obj[2]).longValue(),
+                        obj[3].toString(),
+                        ((Number) obj[4]).longValue(),
+                        BigDecimal.valueOf(((Number) obj[5]).doubleValue()),
+                        BigDecimal.valueOf(((Number) obj[6]).doubleValue())
+                )).toList();
+    }
 
     @Transactional(readOnly = true)
     public List<InactiveCustomerDto> getInactiveCustomers(){
@@ -49,11 +69,14 @@ public class ChallengeService {
     }
 
     @Transactional(readOnly = true)
-    public List<TopProductResponseDto> getTopProducts(Long channelId, IntervalDto interval){
+    public List<TopProductResponseDto> getTopProducts(Long storeId, Long channelId, IntervalDto interval){
         if (channelId == 0)
             channelId = null;
 
-        return productSaleRepository.findTopProduct(channelId, interval.start(), interval.end())
+        if (storeId == 0)
+            storeId = null;
+
+        return productSaleRepository.findTopProduct(storeId, channelId, interval.start(), interval.end())
                 .stream()
                 .map(obj -> new TopProductResponseDto(
                         ((Number) obj[3]).longValue(),
@@ -74,6 +97,14 @@ public class ChallengeService {
                 typeName,
                 Objects.requireNonNullElse(amount, BigDecimal.ZERO)
         );
+    }
+
+    public List<StoreResponseDto> getStores(){
+        List<Store> stores = storeRepository.findAll();
+
+        return stores.stream()
+                .map(StoreMapper::toDto)
+                .toList();
     }
 
     private BalanceResponseDto getTotalBalance(BigDecimal presencialAmount, BigDecimal deliveryAmount) {

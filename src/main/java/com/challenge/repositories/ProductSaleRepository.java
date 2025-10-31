@@ -14,9 +14,13 @@ public interface ProductSaleRepository extends JpaRepository<ProductSale, Long> 
             RANK() OVER (ORDER BY SUM(ps.quantity) DESC) AS position
             FROM ProductSale ps JOIN Product p ON p.id = ps.product.id JOIN Sale s ON s.id = ps.sale.id
             WHERE s.saleStatusDesc = 'COMPLETED'
+            AND (:storeId IS NULL OR s.store.id = :storeId)
             AND (:channelId IS NULL OR s.channel.id = :channelId)
             AND s.createdAt BETWEEN :start AND :end
             GROUP BY p.name ORDER BY totalSold DESC LIMIT 10
             """)
-    List<Object[]> findTopProduct(@Param("channelId") Long channelId, @Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
+    List<Object[]> findTopProduct(@Param("storeId") Long storeId,
+                                  @Param("channelId") Long channelId,
+                                  @Param("start") LocalDateTime start,
+                                  @Param("end") LocalDateTime end);
 }
