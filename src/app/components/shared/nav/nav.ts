@@ -11,5 +11,7 @@ import { InactiveCustomers } from "../customer/inactive-customers/inactive-custo
   styleUrl: './nav.css',
 })
 export class Nav {
-  interval = input.required<Interval>();
+  readonly storeId = input.required<number>();
+  readonly channelId = input.required<number>();
+  readonly interval = input.required<Interval>();
 }

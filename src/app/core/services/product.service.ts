@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { TopProductResponseDto } from '../model/product';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Interval } from '../model/interval';
 
 @Injectable({
@@ -12,7 +12,10 @@ export class ProductService {
   private apiUrl = environment.api;
   private httpClient = inject(HttpClient)
   
-  public getTopProducts(channelId: string, interval: Interval): Observable<TopProductResponseDto[]>{
-    return this.httpClient.post<TopProductResponseDto[]>(`${this.apiUrl}/top-products/${channelId}`, interval);
+  public getTopProducts(storeId: number, channelId: number, interval: Interval): Observable<TopProductResponseDto[]>{
+    if(storeId == undefined || channelId == undefined || interval == undefined)
+      return of([]);
+        
+    return this.httpClient.post<TopProductResponseDto[]>(`${this.apiUrl}/top-products/${storeId}/${channelId}`, interval);
   }
 }

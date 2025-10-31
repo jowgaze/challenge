@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, effect, inject, input } from '@angular/core';
 import { InactiveCustomersItem } from "../inactive-customers-item/inactive-customers-item";
 import { Observable } from 'rxjs';
 import { InactiveCustomerDto } from '../../../../core/model/customer';
@@ -12,10 +12,16 @@ import { AsyncPipe } from '@angular/common';
   styleUrl: './inactive-customers.css',
 })
 export class InactiveCustomers {
+  readonly storeId = input.required<number>();
+  readonly channelId = input.required<number>();
+
   inactiveCustomers = new Observable<InactiveCustomerDto[]>();
   customerService = inject(CustomerService);
 
+
   constructor(){
-    this.inactiveCustomers = this.customerService.getTopProducts();
+    effect(() => {
+      this.inactiveCustomers = this.customerService.getInactiveCustomers(this.storeId(), this.channelId());
+    });
   }
 }

@@ -13,14 +13,14 @@ import { Interval } from '../../../../core/model/interval';
   styleUrl: './card-balance.css',
 })
 export class CardBalance {
-  private balanceService = inject(BalanceService);
-  
+  readonly storeId = input.required<number>();
   readonly interval = input.required<Interval>();
+  private balanceService = inject(BalanceService);
   balance = new Observable<BalanceResponseDto[]>();
 
   constructor() {
     effect(() => {
-      this.balance = this.balanceService.getBalance(this.interval());
+      this.balance = this.balanceService.getBalance(this.storeId(), this.interval());
     });
   }
 }

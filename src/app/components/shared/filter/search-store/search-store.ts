@@ -6,8 +6,8 @@ import {AsyncPipe} from '@angular/common';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import { StoreResponseDto } from '../../../core/model/store';
-import { StoreService } from '../../../core/services/store.service';
+import { StoreResponseDto } from '../../../../core/model/store';
+import { StoreService } from '../../../../core/services/store.service';
 
 @Component({
   selector: 'app-search-store',
@@ -23,7 +23,7 @@ import { StoreService } from '../../../core/services/store.service';
   styleUrl: './search-store.css',
 })
 export class SearchStore implements OnInit{
-  readonly store = output<StoreResponseDto>();
+  readonly storeId = output<number>();
 
   stores = new Observable<StoreResponseDto[]>();
   storeService = inject(StoreService);
@@ -31,10 +31,12 @@ export class SearchStore implements OnInit{
 
   ngOnInit() {
     this.stores = this.storeService.getStores();
+    this.outputStore()
   }
 
   outputStore(){
-    this.store.emit(this.myControl.value as StoreResponseDto);
+    let store = this.myControl.value as StoreResponseDto;
+    this.storeId.emit(store.id);
   }
 
   displayFn(store: StoreResponseDto): string {

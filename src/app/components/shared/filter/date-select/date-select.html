@@ -1,0 +1,16 @@
+<mat-form-field>
+    <mat-label>Intervalo</mat-label>
+    <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+        <input matStartDate formControlName="start" placeholder="Inicio">
+        <input matEndDate formControlName="end" placeholder="Fim" (dateChange)="onIntervalChange()">
+    </mat-date-range-input>
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker></mat-date-range-picker>
+
+    @if (range.controls.start.hasError('matStartDateInvalid')) {
+    <mat-error>Data de Inicio invalida</mat-error>
+    }
+    @if (range.controls.end.hasError('matEndDateInvalid')) {
+    <mat-error>Data de fim invalida</mat-error>
+    }
+</mat-form-field>

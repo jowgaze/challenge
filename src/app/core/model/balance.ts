@@ -9,6 +9,6 @@ export class BalanceRequestDto {
 }
 
 export interface BalanceResponseDto{
-  type: string;
+  channelName: string;
   amount: number;
 }
