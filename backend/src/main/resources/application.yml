@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: challenge
+
+  datasource:
+    url: jdbc:postgresql://${PG_HOST:localhost}:${PG_PORT:5432}/${PGDATABASE:challenge_db}
+    username: ${PG_USER:challenge}
+    password: ${PG_PASSWORD:challenge_2024}
+    jpa:
+      hibernate:
+        ddl-auto: update
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.PostgreSQLDialect
