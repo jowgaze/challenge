@@ -3,6 +3,7 @@ package com.challenge.controllers;
 import com.challenge.dto.IntervalDto;
 import com.challenge.dto.TicketDto;
 import com.challenge.dto.balance.BalanceResponseDto;
+import com.challenge.dto.channel.ChannelResponseDto;
 import com.challenge.dto.customer.InactiveCustomerDto;
 import com.challenge.dto.product.TopProductResponseDto;
 import com.challenge.dto.store.StoreResponseDto;
@@ -19,9 +20,10 @@ import java.util.List;
 public class ChallengeController {
     private final ChallengeService service;
 
-    @PostMapping("/balance")
-    public ResponseEntity<List<BalanceResponseDto>> getBalance(@RequestBody IntervalDto request) {
-        return ResponseEntity.ok(service.getBalance(request));
+    @PostMapping("/balance/{storeId}")
+    public ResponseEntity<List<BalanceResponseDto>> getBalance(@PathVariable("storeId") Long storeId,
+                                                               @RequestBody IntervalDto request) {
+        return ResponseEntity.ok(service.getBalance(storeId, request));
     }
 
     @PostMapping("/top-products/{storeId}/{channelId}")
@@ -38,13 +40,19 @@ public class ChallengeController {
         return ResponseEntity.ok(service.getTicket(storeId, channelId, interval));
     }
 
-    @GetMapping("/inactive-customers")
-    public ResponseEntity<List<InactiveCustomerDto>> getInactiveCustomers(){
-        return ResponseEntity.ok(service.getInactiveCustomers());
+    @GetMapping("/inactive-customers/{storeId}/{channelId}")
+    public ResponseEntity<List<InactiveCustomerDto>> getInactiveCustomers(@PathVariable("storeId") Long storeId,
+                                                                          @PathVariable("channelId") Long channelId){
+        return ResponseEntity.ok(service.getInactiveCustomers(storeId, channelId));
     }
 
     @GetMapping("/stores")
     public ResponseEntity<List<StoreResponseDto>> getStores(){
         return ResponseEntity.ok(service.getStores());
+    }
+
+    @GetMapping("/channels")
+    public ResponseEntity<List<ChannelResponseDto>> getChannels(){
+        return ResponseEntity.ok(service.getChannels());
     }
 }
