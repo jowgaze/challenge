@@ -1,0 +1,13 @@
+<div class="flex flex-col bg-white rounded-b-xl w-full">
+    <div class="flex flex-col px-4 py-1">
+        <div class="grid grid-cols-4 mt-1 w-full text-black">
+            <p class="font-extralight">ID</p>
+            <p class="font-extralight">NOME</p>
+            <p class="font-extralight">COMPRAS FEITAS</p>
+            <p class="font-extralight">DATA DA ÚLTIMA COMPRA</p>
+        </div>
+        @for (i of inactiveCustomers | async; track i.customerId) {
+            <app-inactive-customers-item [customer]="i"></app-inactive-customers-item>
+        }
+    </div>
+</div>

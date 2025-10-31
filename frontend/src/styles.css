@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+app-root{
+    @apply bg-linear-to-b from-blue-500 to-blue-300 flex flex-col p-2 min-h-dvh justify-between
+}
+
+app-search-store{
+    @apply flex grow
+}
+
+app-date-select{
+    @apply max-sm:grow flex
+}

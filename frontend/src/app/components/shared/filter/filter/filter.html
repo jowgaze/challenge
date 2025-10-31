@@ -1,0 +1,8 @@
+<div class="flex-col mt-4">
+    <div class="flex max-sm:flex-col gap-4 max-sm:gap-0">
+        <app-search-store (storeId)="getStoreId($event)"></app-search-store>
+        <app-date-select (intervalChange)="getInterval($event)"></app-date-select>
+    </div>
+    <app-channel-filter (channelId)="getChannelId($event)"></app-channel-filter>
+    <button matButton="elevated" class="mt-2 w-full" (click)="clickOutput()">Filtrar</button>
+</div>

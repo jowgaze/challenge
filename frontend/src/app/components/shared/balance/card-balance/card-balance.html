@@ -1,0 +1,5 @@
+<section class="flex flex-wrap justify-around gap-2 mt-4 w-full">
+  @for (b of balance | async; track b.channelName) {
+      <app-balance-item [balance]="b"></app-balance-item>
+      }
+</section>

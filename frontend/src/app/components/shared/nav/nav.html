@@ -1,0 +1,9 @@
+<mat-tab-group class="mt-4">
+  <mat-tab label="MAIS VENDIDOS">
+    <app-card-top-products [storeId]="storeId()" [channelId]="channelId()" [interval]="interval()"></app-card-top-products>
+  </mat-tab>
+  <mat-tab label="TICKET MÉDIO"> Content 3 </mat-tab>
+  <mat-tab label="INATIVOS NOS ÚLTIMOS 30 DIAS">
+    <app-inactive-customers [storeId]="storeId()" [channelId]="channelId()"></app-inactive-customers>
+  </mat-tab>
+</mat-tab-group>

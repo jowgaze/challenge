@@ -1,0 +1,11 @@
+<form class="grow">
+    <mat-form-field class="w-full">
+        <mat-label>Loja</mat-label>
+        <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="outputStore()">
+            @for (s of stores | async; track s.id) {
+                <mat-option [value]="s">{{s.name}}</mat-option>
+            }
+        </mat-autocomplete>
+    </mat-form-field>
+</form>

@@ -1,0 +1,5 @@
+@import "tailwindcss";
+
+mat-form-field{
+    @apply max-sm:w-full
+}

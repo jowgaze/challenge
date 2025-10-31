@@ -1,0 +1,7 @@
+<div>
+    <app-header></app-header>
+    <app-filter (storeIdOutput)="getStoreId($event)" (channelIdOutput)="getChannelId($event)" (intervalOutput)="getInterval($event)"></app-filter>
+    <app-card-balance [storeId]="storeId" [interval]="interval"></app-card-balance>
+    <app-nav [storeId]="storeId" [channelId]="channelId" [interval]="interval"></app-nav>
+</div>
+<app-footer></app-footer>
