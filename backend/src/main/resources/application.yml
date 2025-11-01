@@ -12,3 +12,10 @@ spring:
       properties:
         hibernate:
           dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  springdoc:
+    swagger-ui:
+      path: /challenge.html
+    api-docs:
+      path: /challenge
+    packages-to-scan: com.challenge.controllers

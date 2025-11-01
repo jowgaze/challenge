@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.5.final using JasperReports Library version 6.20.5-3efcf2e67f959db3888d79f73dde2dbd7acb4f8e  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DashboardReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="12345678-1234-1234-1234-123456789012">
+    <subDataset name="dsBalances" uuid="1edf21e5-c83a-4ca3-95d3-b09e49bfff1b">
+        <field name="channelName" class="java.lang.String"/>
+        <field name="amount" class="java.math.BigDecimal"/>
+    </subDataset>
+    <subDataset name="dsTopProducts" uuid="13c00607-d527-48de-aa38-cf2fd38cc438">
+        <field name="name" class="java.lang.String"/>
+        <field name="totalSold" class="java.math.BigDecimal"/>
+    </subDataset>
+    <subDataset name="dsTickets" uuid="26f0c160-807a-4fb0-b427-ecc8eedece46">
+        <field name="channelName" class="java.lang.String"/>
+        <field name="avgTicket" class="java.math.BigDecimal"/>
+    </subDataset>
+    <subDataset name="dsInactiveCustomers" uuid="d2e4ca74-c6c8-4282-8c18-bdcb44bc08c3">
+        <field name="customerId" class="java.lang.Long"/>
+        <field name="customerName" class="java.lang.String"/>
+        <field name="lastPurchaseDate" class="java.time.LocalDate"/>
+    </subDataset>
+    <parameter name="storeName" class="java.lang.String"/>
+    <parameter name="channelName" class="java.lang.String"/>
+    <parameter name="start" class="java.time.LocalDate"/>
+    <parameter name="end" class="java.time.LocalDate"/>
+    <parameter name="balances" class="net.sf.jasperreports.engine.JRDataSource"/>
+    <parameter name="topProducts" class="net.sf.jasperreports.engine.JRDataSource"/>
+    <parameter name="tickets" class="net.sf.jasperreports.engine.JRDataSource"/>
+    <parameter name="inactiveCustomers" class="net.sf.jasperreports.engine.JRDataSource"/>
+    <title>
+        <band height="70">
+            <staticText>
+                <reportElement mode="Opaque" x="0" y="-14" width="555" height="40" forecolor="#FFFFFF" backcolor="#4E79DE" uuid="2d26b837-6969-4660-aafa-4c96acc5732b"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="20" isBold="true"/>
+                </textElement>
+                <text><![CDATA[CHALLENGE - RELATÓRIO]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="0" y="28" width="250" height="20" uuid="f14af727-646a-4986-8020-3cdee31f5e8f"/>
+                <textFieldExpression><![CDATA["Loja: " + $P{storeName}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="260" y="28" width="140" height="20" uuid="aa1bfd65-d12e-434d-b7f1-f45004b0fbe5"/>
+                <textFieldExpression><![CDATA["Início: " + $P{start}.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy"))]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="410" y="28" width="145" height="20" uuid="c3d81b5f-d5e7-45e4-974f-6fd3e2a3cbaa"/>
+                <textFieldExpression><![CDATA["Fim: " + $P{end}.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy"))]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+    <summary>
+        <band height="660">
+            <componentElement>
+                <reportElement x="0" y="23" width="555" height="100" uuid="67bf8647-cb82-416e-b114-f8c4c6cdd6d5"/>
+                <jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+                    <datasetRun subDataset="dsBalances" uuid="d64489e1-c1cb-4e56-ad63-2695d21506ed">
+                        <dataSourceExpression><![CDATA[$P{balances}]]></dataSourceExpression>
+                    </datasetRun>
+                    <jr:listContents height="18">
+                        <textField>
+                            <reportElement x="0" y="0" width="200" height="16" uuid="752e4c02-d0c4-4431-a9f2-a2346743e860"/>
+                            <textFieldExpression><![CDATA[$F{channelName}]]></textFieldExpression>
+                        </textField>
+                        <textField>
+                            <reportElement x="300" y="0" width="100" height="16" uuid="fa651efb-1bc4-4ab9-835f-5b1cf27a7fdc"/>
+                            <textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression>
+                        </textField>
+                    </jr:listContents>
+                </jr:list>
+            </componentElement>
+            <componentElement>
+                <reportElement x="0" y="189" width="555" height="100" uuid="e80ef597-aaa1-44da-bedc-2a5fd590e448"/>
+                <jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+                    <datasetRun subDataset="dsTopProducts" uuid="776e2179-45db-4304-ad17-d96ef275fb6d">
+                        <dataSourceExpression><![CDATA[$P{topProducts}]]></dataSourceExpression>
+                    </datasetRun>
+                    <jr:listContents height="18">
+                        <textField>
+                            <reportElement x="0" y="0" width="300" height="16" uuid="0f95d4b5-a312-4a7a-a825-55dca392284d"/>
+                            <textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+                        </textField>
+                        <textField>
+                            <reportElement x="300" y="0" width="100" height="16" uuid="d2486241-b04d-4873-9d7a-deaa8738e53e"/>
+                            <textFieldExpression><![CDATA[$F{totalSold}]]></textFieldExpression>
+                        </textField>
+                    </jr:listContents>
+                </jr:list>
+            </componentElement>
+            <componentElement>
+                <reportElement x="0" y="387" width="555" height="100" uuid="ff112901-1c88-4c76-b91e-c7afd29c536f"/>
+                <jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+                    <datasetRun subDataset="dsTickets" uuid="bed79f46-2dd8-4e1f-a720-bb60e83e7126">
+                        <dataSourceExpression><![CDATA[$P{tickets}]]></dataSourceExpression>
+                    </datasetRun>
+                    <jr:listContents height="18">
+                        <textField>
+                            <reportElement x="0" y="0" width="200" height="16" uuid="72f21f39-754a-4fb7-9ed3-9bc8a0e8996b"/>
+                            <textFieldExpression><![CDATA[$F{channelName}]]></textFieldExpression>
+                        </textField>
+                        <textField>
+                            <reportElement x="300" y="0" width="100" height="16" uuid="31e2f96e-b98f-4850-8399-8a4b06f7b043"/>
+                            <textFieldExpression><![CDATA[$F{avgTicket}]]></textFieldExpression>
+                        </textField>
+                    </jr:listContents>
+                </jr:list>
+            </componentElement>
+            <componentElement>
+                <reportElement x="0" y="549" width="555" height="110" uuid="bb0b307e-0cdf-4248-846b-98107b1b1871"/>
+                <jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+                    <datasetRun subDataset="dsInactiveCustomers" uuid="a635e4a0-1769-416a-9544-a1f777598167">
+                        <dataSourceExpression><![CDATA[$P{inactiveCustomers}]]></dataSourceExpression>
+                    </datasetRun>
+                    <jr:listContents height="18">
+                        <textField>
+                            <reportElement x="20" y="0" width="90" height="16" uuid="8267625c-6ccb-4ae9-a2dc-7b94f1934989"/>
+                            <textFieldExpression><![CDATA[$F{customerId}]]></textFieldExpression>
+                        </textField>
+                        <textField>
+                            <reportElement x="120" y="0" width="300" height="16" uuid="96efe78a-be9d-430a-89ed-eb268a713eb8"/>
+                            <textFieldExpression><![CDATA[$F{customerName}]]></textFieldExpression>
+                        </textField>
+                        <textField pattern="dd/MM/yyyy">
+                            <reportElement x="430" y="0" width="100" height="16" uuid="2ef68b60-d200-43ac-b95c-8f0a0b093a64"/>
+                            <textFieldExpression><![CDATA[$F{lastPurchaseDate}]]></textFieldExpression>
+                        </textField>
+                    </jr:listContents>
+                </jr:list>
+            </componentElement>
+            <textField>
+                <reportElement x="0" y="-26" width="250" height="20" uuid="f14af727-646a-4986-8020-3cdee31f5e8f"/>
+                <textFieldExpression><![CDATA["Canal de vandas: " + $P{channelName}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement mode="Opaque" x="0" y="-10" width="554" height="29" forecolor="#FFFFFF" backcolor="#616161" uuid="36037c7c-585a-43cb-91be-8359246abd0c"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Balanço geral]]></text>
+            </staticText>
+            <staticText>
+                <reportElement mode="Opaque" x="0" y="154" width="554" height="30" forecolor="#FFFFFF" backcolor="#616161" uuid="6bc3d3c6-d547-4114-b881-40a07c6e8318"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="12" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Mais vendidos]]></text>
+            </staticText>
+            <staticText>
+                <reportElement mode="Opaque" x="0" y="353" width="554" height="30" forecolor="#FFFFFF" backcolor="#616161" uuid="67873e26-8f01-4267-bb96-4b5c7648ad66"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="12" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Ticket médio]]></text>
+            </staticText>
+            <staticText>
+                <reportElement mode="Opaque" x="0" y="512" width="555" height="30" forecolor="#FFFFFF" backcolor="#616161" uuid="30aa3ba2-64d4-4683-b189-bc02487a7b84"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="12" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Usuários inativos]]></text>
+            </staticText>
+        </band>
+    </summary>
+</jasperReport>

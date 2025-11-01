@@ -6,9 +6,13 @@ import com.challenge.dto.balance.BalanceResponseDto;
 import com.challenge.dto.channel.ChannelResponseDto;
 import com.challenge.dto.customer.InactiveCustomerDto;
 import com.challenge.dto.product.TopProductResponseDto;
+import com.challenge.dto.report.ReportRequestDto;
 import com.challenge.dto.store.StoreResponseDto;
 import com.challenge.services.ChallengeService;
+import com.challenge.services.ReportService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +23,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ChallengeController {
     private final ChallengeService service;
+    private final ReportService report;
 
     @PostMapping("/balance/{storeId}")
     public ResponseEntity<List<BalanceResponseDto>> getBalance(@PathVariable("storeId") Long storeId,
@@ -54,5 +59,19 @@ public class ChallengeController {
     @GetMapping("/channels")
     public ResponseEntity<List<ChannelResponseDto>> getChannels(){
         return ResponseEntity.ok(service.getChannels());
+    }
+
+    @PostMapping("/report")
+    public ResponseEntity<byte[]> gerar(@RequestBody ReportRequestDto request) {
+        try {
+            byte[] pdf = report.getReport(request);
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=report.pdf")
+                    .contentType(MediaType.APPLICATION_PDF)
+                    .body(pdf);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
     }
 }
