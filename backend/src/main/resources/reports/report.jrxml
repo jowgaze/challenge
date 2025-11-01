@@ -40,6 +40,10 @@
                 <textFieldExpression><![CDATA["Loja: " + $P{storeName}]]></textFieldExpression>
             </textField>
             <textField>
+                <reportElement x="-1" y="41" width="250" height="20" uuid="f14af727-646a-4986-8020-3cdee31f5e8f"/>
+                <textFieldExpression><![CDATA["Canal de vandas: " + $P{channelName}]]></textFieldExpression>
+            </textField>
+            <textField>
                 <reportElement x="260" y="28" width="140" height="20" uuid="aa1bfd65-d12e-434d-b7f1-f45004b0fbe5"/>
                 <textFieldExpression><![CDATA["Início: " + $P{start}.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy"))]]></textFieldExpression>
             </textField>
@@ -127,10 +131,6 @@
                     </jr:listContents>
                 </jr:list>
             </componentElement>
-            <textField>
-                <reportElement x="0" y="-26" width="250" height="20" uuid="f14af727-646a-4986-8020-3cdee31f5e8f"/>
-                <textFieldExpression><![CDATA["Canal de vandas: " + $P{channelName}]]></textFieldExpression>
-            </textField>
             <staticText>
                 <reportElement mode="Opaque" x="0" y="-10" width="554" height="29" forecolor="#FFFFFF" backcolor="#616161" uuid="36037c7c-585a-43cb-91be-8359246abd0c"/>
                 <textElement textAlignment="Center" verticalAlignment="Middle">

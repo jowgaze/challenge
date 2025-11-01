@@ -16,7 +16,7 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
 
     @Query("""
         SELECT new com.challenge.dto.balance.BalanceResponseDto(s.channel.name, SUM(s.totalAmountItems)) FROM Sale s
-        WHERE s.store.id = :storeId
+        WHERE (:storeId IS NULL OR s.store.id = :storeId)
         AND s.createdAt BETWEEN :start AND :end
         GROUP BY s.channel.id, s.channel.name
         ORDER BY s.channel.id ASC
@@ -34,7 +34,7 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
            JOIN s.channel ch
            JOIN s.store st
            WHERE s.saleStatusDesc = 'COMPLETED'
-            AND st.id = :storeId
+            AND (:storeId IS NULL OR st.id = :storeId)
             AND (:channelId IS NULL OR ch.id = :channelId)
              AND s.createdAt BETWEEN :start AND :end
            GROUP BY ch.id, ch.name, st.id, st.name

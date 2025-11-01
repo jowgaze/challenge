@@ -1,5 +1,7 @@
 package com.challenge.services;
 
+import com.challenge.domain.model.Channel;
+import com.challenge.domain.model.Store;
 import com.challenge.dto.IntervalDto;
 import com.challenge.dto.TicketDto;
 import com.challenge.dto.balance.BalanceResponseDto;
@@ -35,7 +37,7 @@ public class ReportService {
 
         Map<String, Object> params = new HashMap<>();
         params.put("storeName", reportDto.getStoreName());
-        params.put("channelName", reportDto.getStoreName());
+        params.put("channelName", reportDto.getChannelName());
         params.put("start", reportDto.getStart());
         params.put("end", reportDto.getEnd());
 
@@ -60,8 +62,20 @@ public class ReportService {
     private ReportDto getReportDto(ReportRequestDto request){
         IntervalDto interval = new IntervalDto(request.getStart(), request.getEnd());
 
-        String storeName = service.getChannels().stream().filter(channel -> channel.getId().equals(request.getChannelId())).toString();
-        String channelName = service.getStores().stream().filter(store -> store.getId().equals(request.getStoreId())).toString();
+        String storeName = "Todos";
+        if (request.getStoreId() != 0)
+            storeName = service.getStores()
+                    .stream()
+                    .filter(store -> store.getId().equals(request.getStoreId()))
+                    .toList().get(0).getName();
+
+        String channelName = "Todos";
+        if (request.getChannelId() != 0)
+            channelName = service.getChannels()
+                    .stream()
+                    .filter(channel -> channel.getId().equals(request.getChannelId()))
+                    .toList().get(0).getName();
+
         LocalDate start = LocalDate.parse(request.getStart().toString().substring(0, 10));
         LocalDate end = LocalDate.parse(request.getEnd().toString().substring(0, 10));
 

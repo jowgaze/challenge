@@ -31,6 +31,7 @@ public class ChallengeService {
 
     @Transactional(readOnly = true)
     public List<BalanceResponseDto> getBalance(Long storeId, IntervalDto request) {
+        storeId = isZero(storeId);
         List<BalanceResponseDto> balances = saleRepository.findTotalSales(storeId, request.start(), request.end());
         balances.add(getTotalBalance(balances));
         return balances;
@@ -50,6 +51,7 @@ public class ChallengeService {
     }
 
     public List<TicketDto> getTicket(Long storeId, Long channelId, IntervalDto request) {
+        storeId = isZero(storeId);
         channelId = isZero(channelId);
 
         return saleRepository.findTicketByChannelAndStore(storeId, channelId, request.start(), request.end());
