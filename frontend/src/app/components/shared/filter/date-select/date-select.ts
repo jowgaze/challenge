@@ -6,10 +6,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { Interval } from '../../../../core/model/interval';
 
-const today = new Date();
-const month = today.getMonth();
-const year = today.getFullYear();
-
 @Component({
   selector: 'app-date-select',
   providers: [provideNativeDateAdapter()],
@@ -28,8 +24,8 @@ export class DateSelect implements OnInit {
   readonly intervalChange = output<{ start: string | null; end: string | null }>();
 
   readonly range = new FormGroup({
-    start: new FormControl(new Date(year, month, 1)),
-    end: new FormControl(new Date(today)),
+    start: new FormControl(new Date(2025, 10, 1)),
+    end: new FormControl(new Date(2025, 10, 31)),
   });
 
   ngOnInit(): void {

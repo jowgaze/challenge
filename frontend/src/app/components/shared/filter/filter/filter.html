@@ -4,5 +4,8 @@
         <app-date-select (intervalChange)="getInterval($event)"></app-date-select>
     </div>
     <app-channel-filter (channelId)="getChannelId($event)"></app-channel-filter>
-    <button matButton="elevated" class="mt-2 w-full" (click)="clickOutput()">Filtrar</button>
+    <div class="flex gap-4 mt-2">
+        <button matButton="elevated" class="grow" (click)="clickOutput()">Filtrar</button>
+        <button matButton="elevated" [disabled]="!disableDownload" (click)="downloadPdf()">Baixar Relatório</button>
+    </div>
 </div>
