@@ -25,7 +25,7 @@ public class TicketDto {
         this.storeId = storeId;
         this.storeName = storeName;
         this.totalSales = totalSales;
-        this.revenue = BigDecimal.valueOf(revenue).setScale(2, RoundingMode.HALF_EVEN);;
-        this.avgTicket = BigDecimal.valueOf(revenue/totalSales).setScale(2, RoundingMode.HALF_EVEN);;
+        this.revenue = BigDecimal.valueOf(revenue).setScale(2, RoundingMode.HALF_EVEN);
+        this.avgTicket = BigDecimal.valueOf(revenue/totalSales).setScale(2, RoundingMode.HALF_EVEN);
     }
 }

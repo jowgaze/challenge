@@ -1,7 +1,7 @@
 import { Component, ViewChild, effect, inject, input, OnDestroy } from '@angular/core';
-import { TicketService } from '../../../../core/services/ticket.service';
-import { TicketResponseDto } from '../../../../core/model/ticket';
-import { Interval } from '../../../../core/model/interval';
+import { TicketService } from '../../../core/services/ticket.service';
+import { TicketResponseDto } from '../../../core/model/ticket';
+import { Interval } from '../../../core/model/interval';
 import {
   ApexAxisChartSeries,
   ApexChart,

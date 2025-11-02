@@ -1,13 +1,14 @@
 import { Component, input } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
-import { CardTopProducts } from "../top-products/card-top-products/card-top-products";
+
 import { Interval } from '../../../core/model/interval';
 import { InactiveCustomers } from "../customer/inactive-customers/inactive-customers";
-import { Ticket } from "../ticket/ticket/ticket";
+import { Ticket } from "../ticket/ticket";
+import { CardTopProducts } from "../card-top-products/card-top-products";
 
 @Component({
   selector: 'app-nav',
-  imports: [MatTabsModule, CardTopProducts, InactiveCustomers, Ticket],
+  imports: [MatTabsModule, InactiveCustomers, Ticket, CardTopProducts],
   templateUrl: './nav.html',
   styleUrl: './nav.css',
 })
