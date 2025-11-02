@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit, output } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { provideNativeDateAdapter } from '@angular/material/core';
-import { MatDatepickerToggle, MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { Interval } from '../../../../core/model/interval';
@@ -24,8 +24,8 @@ export class DateSelect implements OnInit {
   readonly intervalChange = output<{ start: string | null; end: string | null }>();
 
   readonly range = new FormGroup({
-    start: new FormControl(new Date(2025, 10, 1)),
-    end: new FormControl(new Date(2025, 10, 31)),
+    start: new FormControl(new Date(2025, 9, 1)),
+    end: new FormControl(new Date(2025, 9, 31)),
   });
 
   ngOnInit(): void {

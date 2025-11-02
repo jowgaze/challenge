@@ -1,9 +1,9 @@
 import { Component, ViewChild, effect, inject, input, OnDestroy } from '@angular/core';
-import { ProductService } from '../../../../core/services/product.service';
 import { Subscription } from 'rxjs';
-import { Interval } from '../../../../core/model/interval';
 import { ChartComponent } from 'ng-apexcharts';
 import { ApexNonAxisChartSeries, ApexResponsive, ApexChart } from 'ng-apexcharts';
+import { ProductService } from '../../../core/services/product.service';
+import { Interval } from '../../../core/model/interval';
 
 export type ChartOptions = {
   series: ApexNonAxisChartSeries;
