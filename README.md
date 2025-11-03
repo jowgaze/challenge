@@ -37,6 +37,9 @@ docker compose up -d backend frontend
 docker compose run --rm data-generator
 ```
 
+  - O frontend ficará disponível em [localhost:4200](http://localhost:4200)
+  - O backend ficará disponível em [localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
+
 ## Endpoints
 ## Endpoints Principais
 
