@@ -1,0 +1,74 @@
+networks:
+  app-network:
+    driver: bridge
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: godlevel-db
+    environment:
+      POSTGRES_DB: challenge_db
+      POSTGRES_USER: challenge
+      POSTGRES_PASSWORD: challenge_2025
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./data-generator/database-schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U challenge -d challenge_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
+
+  data-generator:
+    build: data-generator
+    container_name: godlevel-data-gen
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://challenge:challenge_2025@postgres:5432/challenge_db
+    command: >
+      sh -c "
+        echo 'Waiting for database to be ready...' &&
+        sleep 5 &&
+        echo 'Generating challenge data...' &&
+        python -u generate_data.py --db-url postgresql://challenge:challenge_2025@postgres:5432/challenge_db
+      "
+    profiles:
+      - tools
+    networks:
+      - app-network
+
+  backend:
+    container_name: backend
+    build: backend
+    environment:
+      - PG_URL=jdbc:postgresql://postgres:5432/challenge_db
+      - PG_USERNAME=challenge
+      - PG_PASSWORD=challenge_2025
+      - FRONTEND_URL=http://frontend:4200
+    ports:
+        - "8080:8080"
+    depends_on:
+      - postgres
+    networks:
+      - app-network
+
+  frontend:
+      container_name: frontend
+      build: frontend
+      ports:
+        - "4200:4200"
+      depends_on:
+        - postgres
+        - backend
+      networks:
+        - app-network
+
+volumes:
+  postgres_data:
+    driver: local

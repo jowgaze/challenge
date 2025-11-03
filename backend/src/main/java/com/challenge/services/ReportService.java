@@ -1,7 +1,5 @@
 package com.challenge.services;
 
-import com.challenge.domain.model.Channel;
-import com.challenge.domain.model.Store;
 import com.challenge.dto.IntervalDto;
 import com.challenge.dto.TicketDto;
 import com.challenge.dto.balance.BalanceResponseDto;
@@ -12,6 +10,7 @@ import com.challenge.dto.report.ReportRequestDto;
 import lombok.RequiredArgsConstructor;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.util.JRLoader;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
@@ -29,11 +28,11 @@ public class ReportService {
     public byte[] getReport(ReportRequestDto request) throws JRException {
         ReportDto reportDto = this.getReportDto(request);
 
-        InputStream template = getClass().getResourceAsStream("/reports/report.jrxml");
+        InputStream template = getClass().getResourceAsStream("/reports/report.jasper");
         if (template == null)
-            throw new JRException("Template report.jrxml não encontrado em /reports");
+            throw new JRException("Template report.jasper não encontrado em /reports");
 
-        JasperReport report = JasperCompileManager.compileReport(template);
+        JasperReport report = (JasperReport) JRLoader.loadObject(template);
 
         Map<String, Object> params = new HashMap<>();
         params.put("storeName", reportDto.getStoreName());
@@ -46,7 +45,6 @@ public class ReportService {
         params.put("tickets", new JRBeanCollectionDataSource(reportDto.getTickets()));
         params.put("inactiveCustomers", new JRBeanCollectionDataSource(reportDto.getInactiveCustomer()));
 
-        // Calcula total geral do balanço
         double total = reportDto.getBalances() != null
                 ? reportDto.getBalances().stream()
                 .filter(b -> b.getAmount() != null)
