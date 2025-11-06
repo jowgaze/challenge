@@ -14,6 +14,8 @@ Uma aplicação desenvolvida para o desafio da Nola.
 ## Deploy
 Por usar plataformas gratuitas para o deploy, o banco de dados foi reduzido.
 
+**Importante:** Ao acessar o deploy, o backend demora um pouco para iniciar, já que entra em hibernação caso não tenha acessos por um peridodo.
+
 - [Backend](https://mushy-kellyann-jowgaze-cf011411.koyeb.app/swagger-ui/index.html)
 - [Frontend](https://frontend-deploy-topaz-theta.vercel.app)
 
